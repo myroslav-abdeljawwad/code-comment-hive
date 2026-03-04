@@ -1,0 +1,91 @@
+# Code Comment Hive configuration
+#
+# This file controls the behavior of the code-comment-hive application.
+# Adjust the values below to suit your repository and environment.
+#
+# Author: Myroslav Mokhammad Abdeljawwad
+
+general:
+  # Path to the root directory of the repository to scan.  
+  # Can be relative or absolute; if omitted, the current working directory is used.
+  repo_path: "./"
+
+  # Directory where the generated index files and other artifacts will be stored.
+  output_dir: "./hive_output"
+
+  # Whether to run the web server after indexing (true/false).
+  serve_after_index: true
+
+  # Port number for the HTTP server. Must be in range 1024-65535.
+  server_port: 8080
+
+parser:
+  # Enable or disable parsing of specific file extensions.
+  enabled_extensions:
+    - ".go"
+    - ".md"
+    - ".yaml"
+    - ".yml"
+
+  # Maximum size (in bytes) of a file to parse. Files larger than this will be skipped.
+  max_file_size: 1048576  # 1 MB
+
+  # Number of concurrent parser workers. Set to 0 for automatic detection based on CPUs.
+  concurrency: 0
+
+indexer:
+  # Directory where the search index files are stored (relative to output_dir).
+  index_dir: "search_index"
+
+  # Type of indexing engine: "bleve" or "elasticsearch".
+  engine: "bleve"
+
+  # If using Elasticsearch, provide connection details.
+  elasticsearch:
+    url: "http://localhost:9200"
+    username: ""
+    password: ""
+
+  # Whether to rebuild the index from scratch on every run (true) or update incrementally (false).
+  full_rebuild: true
+
+search:
+  # Maximum number of results returned per query.
+  max_results: 50
+
+  # Default search field to prioritize if none specified. Options: "comment", "file", "function".
+  default_field: "comment"
+
+  # Whether to enable fuzzy searching (approximate matches). Requires a suitable index engine support.
+  fuzzy_search: false
+
+  # Fuzziness level (Levenshtein distance) when fuzzy_search is true. Must be >=0.
+  fuzziness_level: 2
+
+server:
+  # Enable or disable the built-in web UI.
+  enable_web_ui: true
+
+  # Path to the HTML template for the index page. Relative to project root.
+  ui_template_path: "./templates/index.html"
+
+  # Static files directory (CSS, JS) relative to project root.
+  static_dir: "./static"
+
+  # Enable HTTPS if certificates are provided; otherwise HTTP is used.
+  https:
+    enabled: false
+    cert_file: ""
+    key_file: ""
+
+logging:
+  # Log level: debug, info, warn, error, fatal.
+  level: "info"
+
+  # File to write logs to. If empty, logs are written to stdout.
+  log_file: ""
+
+  # Rotate logs after reaching this size (bytes). Set to 0 for no rotation.
+  rotate_size: 10485760  # 10 MB
+
+# End of configuration file
